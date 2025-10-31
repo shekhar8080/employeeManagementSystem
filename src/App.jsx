@@ -1,9 +1,10 @@
 import React from 'react'
+import Login from './authPage/Login'
 
 const App = () => {
   return (
     <div>
-      <h1 className='text-6xl'>Home page</h1>
+      <Login />
     </div>
   )
 }
