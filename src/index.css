@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+*{
+  color: azure;
+}
+
+body {
+  background-color: black;
+}
