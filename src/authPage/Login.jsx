@@ -7,8 +7,8 @@ const Login = () => {
 
     const formHandler = (e)=>{
         e.preventDefault()
-        console.log(email)
-        console.log(password)
+        // console.log(email)
+        // console.log(password)
         setEmail('')
         setPassword('')
     }
