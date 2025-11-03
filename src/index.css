@@ -5,9 +5,12 @@
 }
 
 body {
-  background-color: #1c1c1c;
+  background-color: rgb(16, 15, 15);
 }
 
 #tasklist::-webkit-scrollbar{
+  display: none;
+}
+#allTask::-webkit-scrollbar{
   display: none;
 }
