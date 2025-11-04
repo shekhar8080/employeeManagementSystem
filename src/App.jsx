@@ -6,22 +6,44 @@ import { setLocalStorage } from './utils/LocalStorage'
 import { AuthContext } from './context/AuthProvider'
 
 const App = () => {
+  // this useState is for Role status like User or admin
+  const [user, setUser] = useState(null)
+  const [loggedInUserData, setLoggedInUserData] = useState(null)
 
-const [user, setUser] = useState(null)
+  // This for localStorage data and context provider
+  const AuthData = useContext(AuthContext);
 
-const AuthData = useContext(AuthContext);
-console.log(AuthData)
-    
-const HandleLogin = (email, password)=>{
-  if(email == 'admin@me.com' && password == 123){
-    setUser('admin')
-  } else if(email == 'user@me.com' && password == 123){
-     setUser('employee') 
+
+  // useEffect(() => {
+
+  //   if (AuthData) {
+  //     const loggedInUser = localStorage.getItem('loggedInUser')
+  //   }
+  // }, [AuthData])
+
+
+  const HandleLogin = (email, password) => {
+  if (AuthData) {
+    const admin = AuthData.admin.find((e) => e.email === email && e.password === password);
+    if (admin) {
+      setUser('admin');
+      setLoggedInUserData(admin);
+      localStorage.setItem('loggedInUser', JSON.stringify({ role: 'admin' }));
+      return; // Exit after successful admin login
+    }
+
+    const employee = AuthData.employees.find((e) => e.email === email && e.password === password);
+    if (employee) {
+      setUser('employee');
+      setLoggedInUserData(employee);
+      localStorage.setItem('loggedInUser', JSON.stringify({ role: 'employee' }));
+      return; // Exit after successful employee login
+    }
   }
-  else {
-    alert("Invalid Credentials")
-  }
-}
+
+  alert("Invalid Credentials");
+};
+
 
 
 
@@ -29,7 +51,10 @@ const HandleLogin = (email, password)=>{
   return (
     <>
       {!user ? <Login HandleLogin={HandleLogin} /> : ''}
-      {user == 'admin' ? <AdminDashboard /> : <EmpDashboard />}
+      {user == 'admin' ? <AdminDashboard /> : (user == 'employee' ? <EmpDashboard data={loggedInUserData} /> : null)}
+      {/* {user === 'admin' && <AdminDashboard />}
+      {user === 'employee' && <EmpDashboard data={loggedInUserData} />} */}
+
     </>
   )
 }
