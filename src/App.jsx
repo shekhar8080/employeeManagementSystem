@@ -9,40 +9,43 @@ const App = () => {
   // this useState is for Role status like User or admin
   const [user, setUser] = useState(null)
   const [loggedInUserData, setLoggedInUserData] = useState(null)
+  console.log(loggedInUserData)
 
   // This for localStorage data and context provider
   const AuthData = useContext(AuthContext);
 
 
-  // useEffect(() => {
-
-  //   if (AuthData) {
-  //     const loggedInUser = localStorage.getItem('loggedInUser')
-  //   }
-  // }, [AuthData])
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem('loggedInUser')
+    if (loggedInUser) {
+      const userData = JSON.parse(loggedInUser)
+      setUser(userData.role)
+      setLoggedInUserData(userData.role)
+    }
+  }, [])
 
 
   const HandleLogin = (email, password) => {
-  if (AuthData) {
-    const admin = AuthData.admin.find((e) => e.email === email && e.password === password);
-    if (admin) {
-      setUser('admin');
-      setLoggedInUserData(admin);
-      localStorage.setItem('loggedInUser', JSON.stringify({ role: 'admin' }));
-      return; // Exit after successful admin login
+    if (AuthData) {
+      const admin = AuthData.admin.find((e) => e.email === email && e.password === password);
+      if (admin) {
+        setUser('admin');
+        setLoggedInUserData(admin);
+        localStorage.setItem('loggedInUser', JSON.stringify({ role: 'admin' }));
+        return; // Exit after successful admin login
+      }
+
+      const employee = AuthData.employees.find((e) => e.email === email && e.password === password);
+      if (employee) {
+        setUser('employee');
+        setLoggedInUserData(employee);
+        localStorage.setItem('loggedInUser', JSON.stringify({ role: 'employee' }));
+        return; // Exit after successful employee login
+      }
     }
 
-    const employee = AuthData.employees.find((e) => e.email === email && e.password === password);
-    if (employee) {
-      setUser('employee');
-      setLoggedInUserData(employee);
-      localStorage.setItem('loggedInUser', JSON.stringify({ role: 'employee' }));
-      return; // Exit after successful employee login
-    }
-  }
-
-  alert("Invalid Credentials");
-};
+    alert("Invalid Credentials");
+  };
 
 
 
@@ -51,9 +54,7 @@ const App = () => {
   return (
     <>
       {!user ? <Login HandleLogin={HandleLogin} /> : ''}
-      {user == 'admin' ? <AdminDashboard /> : (user == 'employee' ? <EmpDashboard data={loggedInUserData} /> : null)}
-      {/* {user === 'admin' && <AdminDashboard />}
-      {user === 'employee' && <EmpDashboard data={loggedInUserData} />} */}
+      {user == 'admin' ? <AdminDashboard data={loggedInUserData}/> : (user == 'employee' ? <EmpDashboard data={loggedInUserData} /> : null)}
 
     </>
   )
