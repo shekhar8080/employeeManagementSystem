@@ -1,36 +1,32 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AuthContext } from '../context/AuthProvider';
 
 const AllTask = () => {
-  return (
-    <div id='allTask' className='bg-[#1c1c1c] p-5 mt-3 h-40 overflow-auto rounded'>
-        <div className='flex justify-between mb-3 bg-amber-400 px-4 py-2 rounded'>
-            <h2>Shekhar</h2>
-            <h3>Make a UI Design</h3>
-            <h5>Status</h5>
-        </div>
-        <div className='flex justify-between mb-3 bg-blue-400 px-4 py-2 rounded'>
-            <h2>Shekhar</h2>
-            <h3>Make a UI Design</h3>
-            <h5>Status</h5>
-        </div>
-        <div className='flex justify-between mb-3 bg-green-400 px-4 py-2 rounded'>
-            <h2>Shekhar</h2>
-            <h3>Make a UI Design</h3>
-            <h5>Status</h5>
-        </div>
-        <div className='flex justify-between mb-3 bg-purple-400 px-4 py-2 rounded'>
-            <h2>Shekhar</h2>
-            <h3>Make a UI Design</h3>
-            <h5>Status</h5>
-        </div>
-        <div className='flex justify-between mb-3 bg-red-400 px-4 py-2 rounded'>
-            <h2>Shekhar</h2>
-            <h3>Make a UI Design</h3>
-            <h5>Status</h5>
-        </div>
+    const AuthData = useContext(AuthContext);
+    return (
+        <div id='allTask' className='bg-[#1c1c1c] p-5 mt-3 h-100  rounded'>
 
-    </div>
-  )
+            <div className='flex justify-between mb-3 bg-blue-400 px-4 py-2 rounded'>
+                <h2 className=' font-bold'>Employees Name</h2>
+                <h3 className=' font-bold'>Active Task</h3>
+                <h3 className=' font-bold'>New Task</h3>
+                <h3 className=' font-bold'>Completed Task</h3>
+                <h3 className=' font-bold'>Failed Task</h3>
+            </div>
+            <div className='overflow-auto'>
+                {AuthData.employees.map((elem,idx) => {
+                    return <div key={idx} className='flex items-center justify-between mb-3 border-2 border-purple-600 px-4 py-2 rounded'>
+                        <h2 className='text-lg font-semibold w-18'>{elem.firstName}</h2>
+                        <h3 className='text-lg font-semibold '>{elem.taskCount.active}</h3>
+                        <h3 className='text-lg font-semibold '>{elem.taskCount.newTask}</h3>
+                        <h3 className='text-lg font-semibold '>{elem.taskCount.complete}</h3>
+                        <h3 className='text-lg font-semibold '>{elem.taskCount.failed}</h3>
+                    </div>
+                })}
+            </div>
+
+        </div>
+    )
 }
 
 export default AllTask

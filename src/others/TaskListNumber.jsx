@@ -5,16 +5,16 @@ import CompletedTask from './CompletedTask'
 import FailedTask from './FailedTask'
 
 const TaskListNumber = ({data}) => {
-    // console.log(data.taskCount)
+    // console.log('TaskListNumber',data.taskCount.active)
   return (
     <div className='flex mt-8 gap-5 justify-between'>
-        <ActiveTask taskCount = {data.taskCount}/>
+        <ActiveTask taskCount = {data}/>
         
-        <NewTask taskCount = {data.taskCount}/>
+        <NewTask taskCount = {data}/>
 
-        <CompletedTask taskCount = {data.taskCount}/>
+        <CompletedTask taskCount = {data}/>
         
-        <FailedTask taskCount = {data.taskCount}/>
+        <FailedTask taskCount = {data}/>
     </div>
   )
 }
