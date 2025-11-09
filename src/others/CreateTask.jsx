@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { AuthContext } from '../context/AuthProvider'
 
 const CreateTask = () => {
 
@@ -8,17 +9,43 @@ const CreateTask = () => {
   const [category, setCategory] = useState('')
   const [description, setDescription] = useState('')
 
+  
+  const {userData, setUserData} = useContext(AuthContext)
+  const employees = userData?.employees || [];
+  
+  // console.log("AuthData",userData)
+  // console.log('emplo',employees)
+  
+  const [newTask, setNewTask] = useState({})
 
   const SubmitHandler = (e)=>{
     e.preventDefault()
-    console.log("form submitted")
+    const newTaskObj = {taskTitle, date, assignTo, category, description,active:false, newTask:true, complete:false, failed:false };
+    
+    // const data = JSON.parse(localStorage.getItem('employees'))
+    employees.forEach((elem)=>{
+      console.log(elem)
+      if(assignTo == elem.firstName){
+        elem.tasks.push(newTaskObj)
+        elem.taskCount.newTask = elem.taskCount.newTask + 1
+        console.log('NewTaskOBJ',newTaskObj)
+      }
+    })
+
+    // setUserData(employees)
+    setUserData((prev) => ({ ...prev, employees }));
+    console.log('after setting the data',employees)
+    
+
     setTaskTitle('')
     setDate('')
     setAssignTo('')
     setCategory('')
     setDescription('')
 
-  }
+  };
+
+
   return (
     <div className='p-5 bg-[#1c1c1c] mt-7 rounded'>
         <form onSubmit={(e)=>{

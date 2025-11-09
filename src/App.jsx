@@ -15,7 +15,7 @@ const App = () => {
 
   // This for localStorage data and context provider
   const AuthData = useContext(AuthContext);
-  // console.log("Auth data ",AuthData)
+  // console.log("Auth data With fn ",AuthData)
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem('loggedInUser')
@@ -32,24 +32,26 @@ const App = () => {
   const HandleLogin = (email, password) => {
     if (AuthData) {
       const employee = AuthData.employees.find((e) => e.email === email && e.password === password);
+      const admin = AuthData.admin.find((e) => e.email === email && e.password === password);
       if (employee) {
         setUser('employee');
         setLoggedInUserData(employee);
         localStorage.setItem('loggedInUser', JSON.stringify({ role: 'employee', data: employee }));
         return;
       }
-      const admin = AuthData.admin.find((e) => e.email === email && e.password === password);
-      if (admin) {
+      else if (admin) {
         setUser('admin');
         setLoggedInUserData(admin);
         localStorage.setItem('loggedInUser', JSON.stringify({ role: 'admin', data: admin }));
         return;
       }
-
+      else {
+        alert("Invalid Credentials");
+      }
     }
-    else {
-      alert("Invalid Credentials");
-    }
+   else{
+    alert("Data Not Available")
+   }
   };
 
 
@@ -57,7 +59,7 @@ const App = () => {
     <>
     {/* <h1>{user}</h1> */}
       {!user ? <Login HandleLogin={HandleLogin} /> : ''}
-      {user == 'admin' ? <AdminDashboard data={loggedInUserData}/> : (user == 'employee' ? <EmpDashboard data={loggedInUserData} /> : '')}
+      {user == 'admin' ? <AdminDashboard changeUser = {setUser} data={loggedInUserData}/> : (user == 'employee' ? <EmpDashboard changeUser = {setUser} data={loggedInUserData} /> : '')}
     </>
   )
 }

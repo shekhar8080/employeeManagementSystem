@@ -16,10 +16,11 @@ const Login = ({HandleLogin}) => {
     <div className='flex h-screen w-screen flex-col items-center justify-center'>
         <div className='border-2 border-red-600 p-10'>
             <form 
-            onSubmit={(e)=>{
-                formHandler(e)
-            }}
-            className='flex flex-col gap-4'>
+                onSubmit={(e)=>{
+                    formHandler(e)
+                }}
+                className='flex flex-col gap-4'
+            >
                 <input 
                 value={email}
                 onChange={(b)=>{

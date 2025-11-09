@@ -14,15 +14,15 @@ const AuthProvider = ({ children }) => {
         setUserData({ employees, admin })
         // localStorage.setItem('employees','')
         // localStorage.setItem('admin','')
-        localStorage.removeItem('employees')
-        localStorage.removeItem('admin')
+        // localStorage.removeItem('employees')
+        // localStorage.removeItem('admin')
     }, [])
 
 
 
     return (
         <div>
-            <AuthContext.Provider value={userData}>
+            <AuthContext.Provider value={{userData, setUserData}}>
                 {children}
             </AuthContext.Provider>
         </div>
